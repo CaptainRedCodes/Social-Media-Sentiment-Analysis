@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Import CORS from flask_cors
+from flask_cors import CORS 
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
@@ -8,7 +8,7 @@ from nltk.stem.porter import PorterStemmer
 from nltk.corpus import stopwords
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes in your Flask app
+CORS(app)  
 
 # Load and preprocess data
 df = pd.read_csv('./encoded-train.csv')
@@ -47,13 +47,12 @@ def predict():
         cleaned_text = getCleanedText(text)
         text_vectorized = cv.transform([cleaned_text]).toarray()
 
-        # Get probabilities of each class
+       
         proba = mn.predict_proba(text_vectorized)
 
-        # Get predicted class
         prediction = mn.predict(text_vectorized)
 
-        # Combine predicted class and confidence scores
+        
         classes = mn.classes_
         results = [{'sentiment': cls, 'confidence': round(score * 100, 2)} for cls, score in zip(classes, proba[0])]
 
